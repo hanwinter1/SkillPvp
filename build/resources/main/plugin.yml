@@ -1,0 +1,16 @@
+name: SkillPvp
+version: '1.0-SNAPSHOT'
+main: kr.hanwinter.skillpvp.Main
+api-version: '1.21'
+commands:
+  정보:
+    description: 정보를 확인한다.
+  직업:
+    description: 직업을 선택한다.
+  메뉴:
+    description: 메뉴를 연다.
+  위치설정:
+    description: 위치를 설정한다.
+  게임종료:
+    description: 게임을 종료합니다.
+depend: [MagicSpells]

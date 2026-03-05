@@ -3,6 +3,7 @@ package kr.hanwinter.skillpvp.user.gui;
 import kr.hanwinter.skillpvp.Main;
 import kr.hanwinter.skillpvp.game.GameLocation;
 import kr.hanwinter.skillpvp.game.gui.GameGUI;
+import kr.hanwinter.skillpvp.game.util.ItemUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -27,45 +28,20 @@ public class UserMenuGUI implements InventoryHolder {
         inventory = Bukkit.createInventory(this, 27, Component.text("메뉴"));
 
         if(Main.getUserManager().getUser(uuid).getLocation() == GameLocation.LOBBY) {
-            ItemStack jobSelectItem = new ItemStack(Material.BOOK, 1);
-            ItemMeta jobSelectItemMeta = jobSelectItem.getItemMeta();
-            jobSelectItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e직업 선택").decoration(TextDecoration.ITALIC, false));
-            jobSelectItem.setItemMeta(jobSelectItemMeta);
-            inventory.setItem(10, jobSelectItem);
-
-            ItemStack gameStartItem = new ItemStack(Material.NETHER_STAR, 1);
-            ItemMeta gameStartItemMeta = gameStartItem.getItemMeta();
-            gameStartItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e게임 시작").decoration(TextDecoration.ITALIC, false));
-            gameStartItem.setItemMeta(gameStartItemMeta);
-            inventory.setItem(13, gameStartItem);
-
-            ItemStack achievementItem = new ItemStack(Material.ENCHANTED_BOOK, 1);
-            ItemMeta achievementItemMeta = achievementItem.getItemMeta();
-            achievementItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e업적").decoration(TextDecoration.ITALIC, false));
-            achievementItem.setItemMeta(achievementItemMeta);
-            inventory.setItem(16, achievementItem);
+            inventory.setItem(10, ItemUtil.createItem(Material.BOOK, LegacyComponentSerializer.legacySection().deserialize("§e직업 선택"), null));
+            inventory.setItem(13, ItemUtil.createItem(Material.NETHER_STAR, LegacyComponentSerializer.legacySection().deserialize("§e게임 시작"), null));
+            inventory.setItem(16, ItemUtil.createItem(Material.ENCHANTED_BOOK, LegacyComponentSerializer.legacySection().deserialize("§e업적"), null));
         }
 
         if(Main.getUserManager().getUser(uuid).getLocation() == GameLocation.PRACTICE) {
-            ItemStack lobbyItem = new ItemStack(Material.NETHER_STAR, 1);
-            ItemMeta lobbyItemMeta = lobbyItem.getItemMeta();
-            lobbyItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e로비").decoration(TextDecoration.ITALIC, false));
-            lobbyItem.setItemMeta(lobbyItemMeta);
-            inventory.setItem(13, lobbyItem);
+            inventory.setItem(13, ItemUtil.createItem(Material.NETHER_STAR, LegacyComponentSerializer.legacySection().deserialize("§e로비"), null));
         }
 
         if(Main.getUserManager().getUser(uuid).getLocation() == GameLocation.SOLO_MATCH_WAITING) {
-            ItemStack lobbyItem = new ItemStack(Material.NETHER_STAR, 1);
-            ItemMeta lobbyItemMeta = lobbyItem.getItemMeta();
-            lobbyItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§c취소").decoration(TextDecoration.ITALIC, false));
-            lobbyItem.setItemMeta(lobbyItemMeta);
-            inventory.setItem(13, lobbyItem);
+            inventory.setItem(13, ItemUtil.createItem(Material.NETHER_STAR, LegacyComponentSerializer.legacySection().deserialize("§e취소"), null));
         }
 
-        ItemStack blackStainedGlassPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
-        ItemMeta blackStainedGlassPaneMeta = blackStainedGlassPane.getItemMeta();
-        blackStainedGlassPaneMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§r"));
-        blackStainedGlassPane.setItemMeta(blackStainedGlassPaneMeta);
+        ItemStack blackStainedGlassPane = ItemUtil.createItem(Material.BLACK_STAINED_GLASS_PANE, Component.text(" "), null);
         for(int i=0; i<9; i++) {
             inventory.setItem(i, blackStainedGlassPane);
         }

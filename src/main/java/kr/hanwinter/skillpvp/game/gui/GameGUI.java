@@ -3,6 +3,7 @@ package kr.hanwinter.skillpvp.game.gui;
 import kr.hanwinter.skillpvp.Main;
 import kr.hanwinter.skillpvp.game.GameLocation;
 import kr.hanwinter.skillpvp.game.manager.GameManager;
+import kr.hanwinter.skillpvp.game.util.ItemUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -23,28 +24,11 @@ public class GameGUI implements InventoryHolder {
     public GameGUI() {
         inventory = Bukkit.createInventory(this, 27, Component.text("게임 메뉴"));
 
-        ItemStack soloMatchItem = new ItemStack(Material.WOODEN_SWORD, 1);
-        ItemMeta soloMatchItemMeta = soloMatchItem.getItemMeta();
-        soloMatchItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e개인전").decoration(TextDecoration.ITALIC, false));
-        soloMatchItem.setItemMeta(soloMatchItemMeta);
-        inventory.setItem(10, soloMatchItem);
+        inventory.setItem(10, ItemUtil.createItem(Material.WOODEN_SWORD, LegacyComponentSerializer.legacySection().deserialize("§e개인전").decoration(TextDecoration.ITALIC, false), null));
+        inventory.setItem(13, ItemUtil.createItem(Material.IRON_SWORD, LegacyComponentSerializer.legacySection().deserialize("§e팀전").decoration(TextDecoration.ITALIC, false), null));
+        inventory.setItem(16, ItemUtil.createItem(Material.SHIELD, LegacyComponentSerializer.legacySection().deserialize("§e연습장").decoration(TextDecoration.ITALIC, false), null));
 
-        ItemStack teamMatchItem = new ItemStack(Material.IRON_SWORD, 1);
-        ItemMeta teamMatchItemMeta = teamMatchItem.getItemMeta();
-        teamMatchItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e팀전").decoration(TextDecoration.ITALIC, false));
-        teamMatchItem.setItemMeta(teamMatchItemMeta);
-        inventory.setItem(13, teamMatchItem);
-
-        ItemStack practiceItem = new ItemStack(Material.SHIELD, 1);
-        ItemMeta practiceItemMeta = practiceItem.getItemMeta();
-        practiceItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§e연습장").decoration(TextDecoration.ITALIC, false));
-        practiceItem.setItemMeta(practiceItemMeta);
-        inventory.setItem(16, practiceItem);
-
-        ItemStack blackStainedGlassPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
-        ItemMeta blackStainedGlassPaneMeta = blackStainedGlassPane.getItemMeta();
-        blackStainedGlassPaneMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§r"));
-        blackStainedGlassPane.setItemMeta(blackStainedGlassPaneMeta);
+        ItemStack blackStainedGlassPane = ItemUtil.createItem(Material.BLACK_STAINED_GLASS_PANE, Component.text(" "), null);
         for(int i=0; i<9; i++) {
             inventory.setItem(i, blackStainedGlassPane);
         }

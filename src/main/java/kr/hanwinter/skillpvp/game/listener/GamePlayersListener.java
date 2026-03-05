@@ -1,6 +1,7 @@
 package kr.hanwinter.skillpvp.game.listener;
 
 import kr.hanwinter.skillpvp.Main;
+import kr.hanwinter.skillpvp.game.GameLocation;
 import kr.hanwinter.skillpvp.game.manager.GameManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -9,20 +10,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.Map;
 
 public class GamePlayersListener implements Listener {
 
-    private final GameManager gameManager;
-
-    public GamePlayersListener(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
-
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
+        GameManager gameManager = Main.getGameManager();
+        if (gameManager.getGameState() != GameManager.GameState.SOLO_MATCH_PLAYING) { return; }
         if(gameManager.getPlayers().contains(player)) {
             Map<Player, Integer> playerLifeMap = gameManager.getPlayerLifeMap();
             playerLifeMap.put(player, playerLifeMap.get(player)-1);
@@ -47,6 +45,21 @@ public class GamePlayersListener implements Listener {
                         player1.showTitle(Title.title(Component.text(""), Component.text(player + "님이 탈락했습니다!")));
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        GameManager gameManager = Main.getGameManager();
+        if (gameManager.getGameState() != GameManager.GameState.SOLO_MATCH_PLAYING) { return; }
+        if(gameManager.getPlayers().contains(player)) {
+            if(gameManager.getPlayerLifeMap().get(player) > 0) {
+                String location = "SOLO_MATCH_LOCATION1_" + (int) (Math.random() * 10 + 1);
+                Main.getUserManager().userTeleport(player, GameLocation.valueOf(location));
+            } else {
+                player.setGameMode(GameMode.SPECTATOR);
             }
         }
     }

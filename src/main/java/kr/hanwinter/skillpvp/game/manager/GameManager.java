@@ -117,7 +117,7 @@ public class GameManager {
         objective = scoreboard.registerNewObjective("lifeBar", Criteria.DUMMY, Component.text("플레이어 목숨 개수"));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         for(Player player : players) {
-            if(playerLifeMap.get(player) != 0) {
+            if(playerLifeMap.get(player) != 0 || playerLifeMap.get(player) != null) {
                 objective.getScore(player.getName()).setScore(playerLifeMap.get(player));
             }
             player.setScoreboard(scoreboard);
@@ -126,7 +126,6 @@ public class GameManager {
 
     private void startSoloGame() {
         countdown = 600;
-        updateScoreboard();
         gameState = GameState.SOLO_MATCH_PLAYING;
         timeBar = Bukkit.createBossBar(String.format("남은 시간 - §e%d초", countdown), BarColor.BLUE, BarStyle.SEGMENTED_12);
         timeBar.setProgress(countdown / 600.0);
@@ -155,6 +154,7 @@ public class GameManager {
             player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
         }
 
+        updateScoreboard();
         startSoloGameTimeTask();
     }
 

@@ -5,6 +5,7 @@ import kr.hanwinter.skillpvp.game.command.GameLocationManagementCommand;
 import kr.hanwinter.skillpvp.game.command.GameManagementCommand;
 import kr.hanwinter.skillpvp.game.gui.GameGUI;
 import kr.hanwinter.skillpvp.game.listener.GameItemSkillUsingListener;
+import kr.hanwinter.skillpvp.game.listener.GamePlayersListener;
 import kr.hanwinter.skillpvp.game.manager.CooldownManager;
 import kr.hanwinter.skillpvp.game.manager.GameManager;
 import kr.hanwinter.skillpvp.user.command.UserInfoCommand;
@@ -71,6 +72,7 @@ public final class Main extends JavaPlugin {
         serverInstance.getServer().getPluginManager().registerEvents(new UserMenuGUI.UserMenuGUIListener(), this);
         serverInstance.getServer().getPluginManager().registerEvents(new GameGUI.GameGUIListener(), this);
         serverInstance.getServer().getPluginManager().registerEvents(new GameItemSkillUsingListener(), this);
+        serverInstance.getServer().getPluginManager().registerEvents(new GamePlayersListener(), this);
     }
 
     private void registerCommands() {

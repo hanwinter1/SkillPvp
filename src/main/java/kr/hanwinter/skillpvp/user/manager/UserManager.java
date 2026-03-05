@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class UserManager {
-    private HashMap<UUID, User> userData = new HashMap<>();
+    private final HashMap<UUID, User> userData = new HashMap<>();
     private final File dataFile;
     private final Main serverInstance;
 
@@ -81,13 +81,13 @@ public class UserManager {
             currentJob = Job.valueOf(currentJobString);
         }
         List<String> unlockedJobsList = playerData.getStringList("unlockedJobs");
-        HashSet<Job> unlockedJobs = new HashSet<Job>();
+        HashSet<Job> unlockedJobs = new HashSet<>();
         for(String unlocked : unlockedJobsList) {
             unlockedJobs.add(Job.valueOf(unlocked));
         }
         List<String> clearedAchievementsList = playerData.getStringList("clearedAchievements");
         HashSet<String> clearedAchievements = new HashSet<>(clearedAchievementsList);
-        Boolean isItemUnlocked = playerData.getBoolean("isItemUnlocked");
+        boolean isItemUnlocked = playerData.getBoolean("isItemUnlocked");
         String location = playerData.getString("location");
         User user = new User(money, kill, death, currentJob, currentItem, unlockedJobs, clearedAchievements, isItemUnlocked, GameLocation.valueOf(location));
         user.reloadActionBar(uuid);
@@ -96,11 +96,7 @@ public class UserManager {
 
     public boolean isFileExist(UUID uuid) {
         File playerDataFile = new File(dataFile, uuid.toString() + ".yml");
-        if(playerDataFile.exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        return playerDataFile.exists();
     }
 
     public void basicFileSet() {

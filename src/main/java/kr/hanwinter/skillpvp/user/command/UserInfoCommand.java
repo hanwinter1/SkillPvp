@@ -3,7 +3,6 @@ package kr.hanwinter.skillpvp.user.command;
 import kr.hanwinter.skillpvp.Main;
 import kr.hanwinter.skillpvp.user.Job;
 import kr.hanwinter.skillpvp.user.User;
-import kr.hanwinter.skillpvp.user.manager.UserManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
@@ -16,12 +15,11 @@ public class UserInfoCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(commandSender instanceof Player)) {
+        if(!(commandSender instanceof Player player)) {
             commandSender.sendMessage("플레이어만 입력할 수 있습니다.");
             return false;
         }
 
-        Player player = (Player) commandSender;
         User user = Main.getUserManager().getUser(player.getUniqueId());
         player.sendMessage(Component.text(""));
         player.sendMessage(LegacyComponentSerializer.legacySection().deserialize(String.format(" §b§l>§r §e%s§r님의 정보 ", player.getName())));

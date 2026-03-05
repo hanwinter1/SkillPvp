@@ -13,12 +13,10 @@ public class GameLocationManagementCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(commandSender instanceof Player)) {
+        if (!(commandSender instanceof Player player)) {
             commandSender.sendMessage("플레이어만 입력할 수 있습니다.");
             return false;
         }
-
-        Player player = (Player) commandSender;
 
         for (GameLocation location : GameLocation.values()) {
             if (location.name().equals(args[0])) {

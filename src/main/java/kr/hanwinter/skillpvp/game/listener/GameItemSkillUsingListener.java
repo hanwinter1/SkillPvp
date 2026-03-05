@@ -29,7 +29,7 @@ public class GameItemSkillUsingListener implements Listener {
         if(Main.getUserManager().getUser(event.getPlayer().getUniqueId()).getLocation() == GameLocation.LOBBY) {
             return;
         }
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         Job job = Main.getUserManager().getUser(player.getUniqueId()).getCurrentJob();
         ClickType clickType;
         long cooldown;

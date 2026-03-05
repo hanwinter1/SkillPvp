@@ -16,7 +16,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class GameGUI implements InventoryHolder {
     private final Inventory inventory;
@@ -69,7 +68,7 @@ public class GameGUI implements InventoryHolder {
                         player.closeInventory();
                         Main.getUserManager().userTeleport(player, GameLocation.PRACTICE);
                         player.give(GameManager.getSkillItem());
-                        Main.getUserManager().getUser(player.getUniqueId()).makeCooldownBar(player);
+                        Main.getUserManager().getUser(player.getUniqueId()).makeCooldownBar();
                         Main.getUserManager().getUser(player.getUniqueId()).getCooldownBar().addPlayer(player);
                 }
             }

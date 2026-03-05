@@ -1,13 +1,10 @@
 package kr.hanwinter.skillpvp.game.command;
 
 import kr.hanwinter.skillpvp.Main;
-import kr.hanwinter.skillpvp.game.GameLocation;
 import kr.hanwinter.skillpvp.game.manager.GameManager;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class GameManagementCommand implements CommandExecutor {

@@ -110,7 +110,7 @@ public class User {
         return actionBar;
     }
 
-    public void makeCooldownBar(Player player) {
+    public void makeCooldownBar() {
         String title = "좌클릭 쿨타임 §7-§r §e0.0초§r §8|§r 우클릭 쿨타임 §7-§r §e0.0초§r §8|§r 쉬프트 좌클릭 쿨타임 §7-§r §e0.0초§r §8|§r 쉬프트 우클릭 쿨타임 §7-§r §e0.0초§r";
         cooldownBar = Bukkit.createBossBar(title, BarColor.BLUE, BarStyle.SOLID);
     }

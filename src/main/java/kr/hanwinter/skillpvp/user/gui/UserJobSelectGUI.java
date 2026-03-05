@@ -1,9 +1,11 @@
 package kr.hanwinter.skillpvp.user.gui;
 
 import kr.hanwinter.skillpvp.Main;
+import kr.hanwinter.skillpvp.game.util.ItemUtil;
 import kr.hanwinter.skillpvp.user.Job;
 import kr.hanwinter.skillpvp.user.User;
 import kr.hanwinter.skillpvp.user.manager.UserManager;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -14,7 +16,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class UserJobSelectGUI implements InventoryHolder {
     private final Inventory inventory;
@@ -27,10 +28,7 @@ public class UserJobSelectGUI implements InventoryHolder {
             inventorySize++;
         }
         inventory = Bukkit.createInventory(this, 27 + inventorySize*9, LegacyComponentSerializer.legacySection().deserialize("§e직업 선택"));
-        ItemStack blackStainedGlassPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
-        ItemMeta blackStainedGlassPaneMeta = blackStainedGlassPane.getItemMeta();
-        blackStainedGlassPaneMeta.displayName(LegacyComponentSerializer.legacySection().deserialize("§r"));
-        blackStainedGlassPane.setItemMeta(blackStainedGlassPaneMeta);
+        ItemStack blackStainedGlassPane = ItemUtil.createItem(Material.BLACK_STAINED_GLASS_PANE, Component.text(" "), null);
         for(int i=0; i<9; i++) {
             inventory.setItem(i, blackStainedGlassPane);
         }

@@ -70,11 +70,7 @@ public class GameManager {
 
     public boolean isFileExist(GameLocation location) {
         File playerDataFile = new File(locationFile, location.name() + ".yml");
-        if(playerDataFile.exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        return playerDataFile.exists();
     }
 
     public void basicFileSet() {
@@ -152,7 +148,7 @@ public class GameManager {
         for(Player player : players) {
             playerLifeMap.put(player, 3);
             player.give(GameManager.getSkillItem());
-            Main.getUserManager().getUser(player.getUniqueId()).makeCooldownBar(player);
+            Main.getUserManager().getUser(player.getUniqueId()).makeCooldownBar();
             Main.getUserManager().getUser(player.getUniqueId()).getCooldownBar().addPlayer(player);
             timeBar.addPlayer(player);
             player.showTitle(Title.title(Component.text("게임이 시작되었습니다!"), Component.text("")));

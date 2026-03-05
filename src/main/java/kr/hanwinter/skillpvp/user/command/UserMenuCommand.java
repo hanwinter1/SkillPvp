@@ -12,12 +12,11 @@ import org.jetbrains.annotations.NotNull;
 public class UserMenuCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!(commandSender instanceof Player)) {
+        if(!(commandSender instanceof Player player)) {
             commandSender.sendMessage("플레이어만 입력할 수 있습니다.");
             return false;
         }
 
-        Player player = (Player) commandSender;
         player.openInventory(new UserMenuGUI(player.getUniqueId()).getInventory());
         return false;
     }

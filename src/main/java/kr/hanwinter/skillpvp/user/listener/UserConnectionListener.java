@@ -30,7 +30,7 @@ public class UserConnectionListener implements Listener {
             userManager.getUser(uuid).reloadActionBar(uuid);
         }
         if(userManager.getUser(uuid).getLocation() == GameLocation.PRACTICE) {
-            userManager.getUser(uuid).makeCooldownBar(player);
+            userManager.getUser(uuid).makeCooldownBar();
             userManager.getUser(uuid).getCooldownBar().addPlayer(player);
         }
         if(!(userManager.getUser(uuid).getLocation() == GameLocation.LOBBY || userManager.getUser(uuid).getLocation() == GameLocation.PRACTICE)) {

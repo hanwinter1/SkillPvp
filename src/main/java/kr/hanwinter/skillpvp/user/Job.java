@@ -1,5 +1,6 @@
 package kr.hanwinter.skillpvp.user;
 
+import kr.hanwinter.skillpvp.game.util.ItemUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -65,13 +66,10 @@ public enum Job {
     }
 
     public ItemStack getJobItem() {
-        ItemStack jobItem = new ItemStack(Material.KNOWLEDGE_BOOK, 1);
+        ItemStack jobItem = ItemUtil.createItem(Material.KNOWLEDGE_BOOK, LegacyComponentSerializer.legacySection().deserialize(String.format("§a§l[직업]§r §f%s", displayName)).decoration(TextDecoration.ITALIC,false),         List.of(Component.text(""), LegacyComponentSerializer.legacySection().deserialize(String.format(" §a§l>§r §f직업 체력 §7-§f %d", health)).decoration(TextDecoration.ITALIC,false), LegacyComponentSerializer.legacySection().deserialize(String.format(" §a§l>§r §f직업 공격력 §7-§f %.1f", damage)).decoration(TextDecoration.ITALIC,false), Component.text("")));
         ItemMeta jobItemMeta = jobItem.getItemMeta();
-        jobItemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize(String.format("§a§l[직업]§r §f%s", displayName)).decoration(TextDecoration.ITALIC,false));
         jobItemMeta.addEnchant(Enchantment.DENSITY, 1, true);
         jobItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        jobItemMeta.lore(List.of(Component.text(""), LegacyComponentSerializer.legacySection().deserialize(String.format(" §a§l>§r §f직업 체력 §7-§f %d", health)).decoration(TextDecoration.ITALIC,false), LegacyComponentSerializer.legacySection().deserialize(String.format(" §a§l>§r §f직업 공격력 §7-§f %.1f", damage)).decoration(TextDecoration.ITALIC,false), Component.text("")));
-
         jobItem.setItemMeta(jobItemMeta);
         return jobItem;
     }

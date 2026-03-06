@@ -1,49 +1,44 @@
 package kr.hanwinter.skillpvp.game.manager;
 
+import kr.hanwinter.skillpvp.game.key.SkillCooldownKey;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CooldownManager {
 
-    private final Map<UUID, Map<String, Long>> cooldowns = new HashMap<>();
+    private final Map<SkillCooldownKey, Long> cooldowns = new HashMap<>();
+    private final Map<UUID, List<String>> usedSkills = new HashMap<>();
 
-    public boolean isCooldown(Player player, String skill) {
-        if (!cooldowns.containsKey(player.getUniqueId())) {
+    public boolean isCooldown(UUID uuid, String skill) {
+        if (!cooldowns.containsKey(new SkillCooldownKey(uuid, skill))) {
             return false;
         }
-        if(cooldowns.get(player.getUniqueId()).get(skill) == null) {
-            return false;
-        }
-        return System.currentTimeMillis() < cooldowns.get(player.getUniqueId()).get(skill);
+        return System.currentTimeMillis() < cooldowns.get(new SkillCooldownKey(uuid, skill));
     }
 
-    public double getCooldown(Player player, String skill) {
-        if(!(cooldowns.containsKey(player.getUniqueId()))) {
+    public double getCooldown(UUID uuid, String skill) {
+        if(!(cooldowns.containsKey(new SkillCooldownKey(uuid, skill)))) {
             return 0;
         }
-        if(cooldowns.get(player.getUniqueId()).get(skill) == null) {
-            return 0;
-        }
-        if(System.currentTimeMillis() > cooldowns.get(player.getUniqueId()).get(skill)) {
+        if(System.currentTimeMillis() > cooldowns.get(new SkillCooldownKey(uuid, skill))) {
             return 0;
         } else {
-            return (cooldowns.get(player.getUniqueId()).get(skill) - System.currentTimeMillis()) / 1000.0;
+            return (cooldowns.get(new SkillCooldownKey(uuid, skill)) - System.currentTimeMillis()) / 1000.0;
         }
     }
 
-    public void setCooldown(Player player, String skill, long cooldownMillis) {
-        if(!(cooldowns.containsKey(player.getUniqueId()))) {
-            cooldowns.put(player.getUniqueId(), new HashMap<>());
-        }
-
-        cooldowns.get(player.getUniqueId()).put(skill, cooldownMillis);
+    public void setCooldown(UUID uuid, String skill, long cooldownMillis) {
+        cooldowns.put(new SkillCooldownKey(uuid, skill), cooldownMillis);
+        usedSkills.computeIfAbsent(uuid, k -> new ArrayList<>());
+        usedSkills.get(uuid).add(skill);
     }
 
-    public void removeCooldown(Player player) {
-        cooldowns.remove(player.getUniqueId());
+    public void removeCooldown(UUID uuid) {
+        for(String skill : usedSkills.get(uuid)) {
+            cooldowns.remove(new SkillCooldownKey(uuid, skill));
+        }
+        usedSkills.remove(uuid);
     }
 
 }

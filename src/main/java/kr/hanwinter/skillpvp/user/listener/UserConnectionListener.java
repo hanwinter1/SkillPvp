@@ -46,7 +46,7 @@ public class UserConnectionListener implements Listener {
             Main.getGameManager().soloMatchQuit(event.getPlayer());
         }
         if(!(userManager.getUser(event.getPlayer().getUniqueId()).getLocation() == GameLocation.LOBBY || userManager.getUser(event.getPlayer().getUniqueId()).getLocation() == GameLocation.TEAM_MATCH_WAITING || userManager.getUser(event.getPlayer().getUniqueId()).getLocation() == GameLocation.SOLO_MATCH_WAITING)) {
-            Main.getCooldownManager().removeCooldown(event.getPlayer());
+            Main.getCooldownManager().removeCooldown(event.getPlayer().getUniqueId());
         }
         userManager.removeUser(event.getPlayer().getUniqueId());
         if(Main.getGameManager().getGameState() == GameManager.GameState.SOLO_MATCH_PLAYING) {

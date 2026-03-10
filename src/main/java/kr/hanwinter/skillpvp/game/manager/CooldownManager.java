@@ -29,7 +29,7 @@ public class CooldownManager {
     }
 
     public void setCooldown(UUID uuid, String skill, long cooldownMillis) {
-        cooldowns.put(new SkillCooldownKey(uuid, skill), cooldownMillis);
+        cooldowns.put(new SkillCooldownKey(uuid, skill), Long.valueOf(cooldownMillis));
         usedSkills.computeIfAbsent(uuid, k -> new ArrayList<>());
         usedSkills.get(uuid).add(skill);
     }

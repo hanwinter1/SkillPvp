@@ -15,13 +15,7 @@ import java.util.*;
 
 public class UserManager {
     private final HashMap<UUID, User> userData = new HashMap<>();
-    private final File dataFile;
-    private final Main serverInstance;
-
-    public UserManager(Main serverInstance) {
-        this.serverInstance = serverInstance;
-        dataFile = new File(serverInstance.getDataFolder(), "playerdata");
-    }
+    private File dataFile;
 
     public void addNewUser(UUID uuid) {
         User user = new User(0L, 0, 0, null, null, new HashSet<>(Set.of(Job.FIRE, Job.FLOWER, Job.LIGHTNING, Job.NATURE)), new HashSet<>(), false, GameLocation.LOBBY);
@@ -46,7 +40,7 @@ public class UserManager {
         user.reloadActionBar(uuid);
         File playerDataFile = new File(dataFile, uuid.toString() + ".yml");
         FileConfiguration playerData = YamlConfiguration.loadConfiguration(playerDataFile);
-        playerData.set("playerName", serverInstance.getServer().getOfflinePlayer(uuid).getName());
+        playerData.set("playerName", Main.getServerInstance().getServer().getOfflinePlayer(uuid).getName());
         playerData.set("money", user.getMoney());
         playerData.set("kill", user.getKill());
         playerData.set("death", user.getDeath());
@@ -100,8 +94,9 @@ public class UserManager {
     }
 
     public void basicFileSet() {
-        if(!serverInstance.getDataFolder().exists()) {
-            serverInstance.getDataFolder().mkdirs();
+        dataFile = new File(Main.getServerInstance().getDataFolder(), "playerdata");
+        if(!Main.getServerInstance().getDataFolder().exists()) {
+            Main.getServerInstance().getDataFolder().mkdirs();
         }
 
         if(!dataFile.exists()) {

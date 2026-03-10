@@ -24,9 +24,9 @@ import com.nisovin.magicspells.MagicSpells;
 public final class Main extends JavaPlugin {
 
     private static Main serverInstance;
-    private static UserManager userManager;
-    private static GameManager gameManager;
-    private static CooldownManager cooldownManager;
+    private final static UserManager USER_MANAGER = new UserManager();
+    private final static GameManager GAME_MANAGER = new GameManager();
+    private final static CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     private MagicSpells magicSpells;
 
     @Override
@@ -34,11 +34,8 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         serverInstance = this;
         registerEvents();
-        userManager = new UserManager(serverInstance);
-        userManager.basicFileSet();
-        gameManager = new GameManager(serverInstance);
-        gameManager.basicFileSet();
-        cooldownManager = new CooldownManager();
+        USER_MANAGER.basicFileSet();
+        GAME_MANAGER.basicFileSet();
         registerCommands();
         startActionBarTask();
         startCooldownBossBarTask();
@@ -48,7 +45,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        serverInstance = null;
     }
 
     public static Main getServerInstance() {
@@ -56,14 +52,14 @@ public final class Main extends JavaPlugin {
     }
 
     public static UserManager getUserManager() {
-        return userManager;
+        return USER_MANAGER;
     }
 
     public static GameManager getGameManager() {
-        return gameManager;
+        return GAME_MANAGER;
     }
 
-    public static CooldownManager getCooldownManager() { return cooldownManager; }
+    public static CooldownManager getCooldownManager() { return COOLDOWN_MANAGER; }
 
     private void registerEvents() {
         serverInstance.getServer().getPluginManager().registerEvents(new UserConnectionListener(), this);
@@ -87,7 +83,7 @@ public final class Main extends JavaPlugin {
             @Override
             public void run() {
                 for (Player player : getServer().getOnlinePlayers()) {
-                    player.sendActionBar(LegacyComponentSerializer.legacySection().deserialize(userManager.getUser(player.getUniqueId()).getActionBar()));
+                    player.sendActionBar(LegacyComponentSerializer.legacySection().deserialize(USER_MANAGER.getUser(player.getUniqueId()).getActionBar()));
                 }
             }
         }.runTaskTimer(serverInstance, 0L, 34L);
@@ -99,8 +95,8 @@ public final class Main extends JavaPlugin {
             @Override
             public void run() {
                 for (Player player : serverInstance.getServer().getOnlinePlayers()) {
-                    if(!(userManager.getUser(player.getUniqueId()).getLocation() == GameLocation.LOBBY || userManager.getUser(player.getUniqueId()).getLocation() == GameLocation.TEAM_MATCH_WAITING || userManager.getUser(player.getUniqueId()).getLocation() == GameLocation.SOLO_MATCH_WAITING)) {
-                        userManager.getUser(player.getUniqueId()).reloadCooldownBar(player);
+                    if(!(USER_MANAGER.getUser(player.getUniqueId()).getLocation() == GameLocation.LOBBY || USER_MANAGER.getUser(player.getUniqueId()).getLocation() == GameLocation.TEAM_MATCH_WAITING || USER_MANAGER.getUser(player.getUniqueId()).getLocation() == GameLocation.SOLO_MATCH_WAITING)) {
+                        USER_MANAGER.getUser(player.getUniqueId()).reloadCooldownBar(player);
                     }
                 }
             }

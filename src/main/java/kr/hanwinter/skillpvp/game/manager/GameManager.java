@@ -25,8 +25,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class GameManager {
-    private final File locationFile;
-    private final Main serverInstance;
+    private File locationFile;
     private GameState gameState;
     private final List<Player> players = new ArrayList<>();
     private final Map<Player, Team> playerTeamMap = new HashMap<>();
@@ -44,11 +43,6 @@ public class GameManager {
 
     public enum Team {
         RED, BLUE
-    }
-
-    public GameManager(Main serverInstance) {
-        this.serverInstance = serverInstance;
-        locationFile = new File(serverInstance.getDataFolder(), "location");
     }
 
     public void saveLocationFile(GameLocation location, Location playerLocation) {
@@ -74,8 +68,9 @@ public class GameManager {
     }
 
     public void basicFileSet() {
-        if(!serverInstance.getDataFolder().exists()) {
-            serverInstance.getDataFolder().mkdirs();
+        locationFile = new File(Main.getServerInstance().getDataFolder(), "location");
+        if(!Main.getServerInstance().getDataFolder().exists()) {
+            Main.getServerInstance().getDataFolder().mkdirs();
         }
 
         if(!locationFile.exists()) {
@@ -90,7 +85,7 @@ public class GameManager {
             }
             players.add(player);
             Main.getUserManager().userTeleport(player, GameLocation.SOLO_MATCH_WAITING);
-            serverInstance.getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전에 플레이어가 참여했습니다. §7(총 %d명)", players.size())));
+            Main.getServerInstance().getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전에 플레이어가 참여했습니다. §7(총 %d명)", players.size())));
             if(players.size() > 1) {
                 if(waitingTask == null) {
                     startSoloGameWaitingTask();
@@ -105,10 +100,10 @@ public class GameManager {
         if(player.isOnline()) {
             Main.getUserManager().userTeleport(player, GameLocation.LOBBY);
         }
-        serverInstance.getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전에 플레이어가 퇴장했습니다. §7(총 %d명)", players.size())));
+        Main.getServerInstance().getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전에 플레이어가 퇴장했습니다. §7(총 %d명)", players.size())));
         if(players.isEmpty()) {
             gameState = null;
-            serverInstance.getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize("§e§l[안내]§r 개인전 대기가 종료되었습니다."));
+            Main.getServerInstance().getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize("§e§l[안내]§r 개인전 대기가 종료되었습니다."));
         }
     }
 
@@ -212,7 +207,7 @@ public class GameManager {
             @Override
             public void run() {
                 if(players.size() < 2) {
-                    serverInstance.getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize("§e§l[안내]§r 개인전 인원이 충족되지 않아 취소됩니다."));
+                    Main.getServerInstance().getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize("§e§l[안내]§r 개인전 인원이 충족되지 않아 취소됩니다."));
                     cancel();
                     waitingTask = null;
                     return;
@@ -224,12 +219,12 @@ public class GameManager {
                     return;
                 }
 
-                serverInstance.getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전 대기가 §e%d§r초 남았습니다.", countdown)));
+                Main.getServerInstance().getServer().broadcast(LegacyComponentSerializer.legacySection().deserialize(String.format("§e§l[안내]§r 개인전 대기가 §e%d§r초 남았습니다.", countdown)));
                 countdown--;
             }
         };
 
-        waitingTask.runTaskTimer(serverInstance, 0L, 20L);
+        waitingTask.runTaskTimer(Main.getServerInstance(), 0L, 20L);
     }
 
     private void startSoloGameTimeTask() {
@@ -254,6 +249,6 @@ public class GameManager {
             }
         };
 
-        waitingTask.runTaskTimer(serverInstance, 0L, 20L);
+        waitingTask.runTaskTimer(Main.getServerInstance(), 0L, 20L);
     }
 }

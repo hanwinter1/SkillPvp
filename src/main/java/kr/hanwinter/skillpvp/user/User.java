@@ -121,10 +121,10 @@ public class User {
     }
 
     public void reloadCooldownBar(Player player) {
-        double cool1 = Main.getCooldownManager().getCooldown(player, currentJob.name() + "_LEFT");
-        double cool2 = Main.getCooldownManager().getCooldown(player, currentJob.name() + "_RIGHT");
-        double cool3 = Main.getCooldownManager().getCooldown(player, currentJob.name() + "_SHIFT_LEFT");
-        double cool4 = Main.getCooldownManager().getCooldown(player, currentJob.name() + "_SHIFT_RIGHT");
+        double cool1 = Main.getCooldownManager().getCooldown(player.getUniqueId(), currentJob.name() + "_LEFT");
+        double cool2 = Main.getCooldownManager().getCooldown(player.getUniqueId(), currentJob.name() + "_RIGHT");
+        double cool3 = Main.getCooldownManager().getCooldown(player.getUniqueId(), currentJob.name() + "_SHIFT_LEFT");
+        double cool4 = Main.getCooldownManager().getCooldown(player.getUniqueId(), currentJob.name() + "_SHIFT_RIGHT");
 
         String title = String.format("좌클릭 쿨타임 §7-§r §e%.1f초§r §8|§r 우클릭 쿨타임 §7-§r §e%.1f초§r §8|§r 쉬프트 좌클릭 쿨타임 §7-§r §e%.1f초§r §8|§r 쉬프트 우클릭 쿨타임 §7-§r §e%.1f초§r", cool1, cool2, cool3, cool4);
         cooldownBar.setTitle(title);

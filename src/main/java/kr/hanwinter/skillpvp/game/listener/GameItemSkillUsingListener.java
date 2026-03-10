@@ -58,7 +58,7 @@ public class GameItemSkillUsingListener implements Listener {
                 return;
         }
         String skill = job.name() + "_" + clickType.name();
-        if (Main.getCooldownManager().isCooldown(player, skill)) {
+        if (Main.getCooldownManager().isCooldown(player.getUniqueId(), skill)) {
             return;
         }
         Spell spell = MagicSpells.getSpellByInternalName(skill);
@@ -66,6 +66,6 @@ public class GameItemSkillUsingListener implements Listener {
             spell.cast(new SpellData(player));
         }
 
-        Main.getCooldownManager().setCooldown(player, skill, System.currentTimeMillis() + cooldown);
+        Main.getCooldownManager().setCooldown(player.getUniqueId(), skill, System.currentTimeMillis() + cooldown);
     }
 }
